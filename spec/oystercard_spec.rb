@@ -3,6 +3,8 @@ require "oystercard"
 describe Oystercard do
 
 let(:station) {double :station}
+let(:entry_station) {double :entry_station}
+let(:exit_station) {double :exit_station}
 
   it 'sets zero balance on new oystercard' do
     expect(subject.balance).to eq 0
@@ -70,5 +72,17 @@ end
       subject.top_up(5)
       expect{subject.touch_in(station)}.to change{subject.entry_station}.to station
     end
-end
+  end
+
+  describe '#store_full_journey' do
+    let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
+
+    it "stores journey" do
+      subject.top_up(10)
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journeys).to include journey
+    end
+  end
+
 end
