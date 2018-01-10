@@ -17,7 +17,21 @@ describe Journey do
       subject.start_journey("Bank")
       expect(subject.temp_trip).to eql({:entry_station => "Bank", :exit_station => nil})
     end
+  end
 
+  context "#end_journey" do
+    it "Should store exit station in temp_trip" do
+      subject.start_journey("Bank")
+      subject.end_journey("Brixton")
+      expect(subject.temp_trip).to eql({:entry_station => "Bank", :exit_station => "Brixton"})
+    end
+  end
+
+  context "#complete_journey?" do
+    it "Should return false for incomplete journey" do
+      subject.start_journey("Bank")
+      expect(subject.complete_journey?).to eq false
+    end
   end
 
 end
