@@ -1,24 +1,27 @@
 class Journey
-  attr_reader :temp_trip
+  attr_reader :trip
+
+  MINIMUM_CHARGE = 1
+  PENALTY_CHARGE = 6
 
   def initialize
-    @temp_trip = {entry_station: nil , exit_station: nil}
+    @trip = {entry_station: nil , exit_station: nil}
   end
 
   def start_journey(station)
-    @temp_trip[:entry_station] = station
+    @trip[:entry_station] = station
   end
 
   def end_journey(station)
-    @temp_trip[:exit_station] = station
+    @trip[:exit_station] = station
   end
 
   def complete_journey?
-    temp_trip[:entry_station] != nil && temp_trip[:exit_station] != nil
+    trip[:entry_station] != nil && trip[:exit_station] != nil
   end
 
   def fare_calculated
-    self.complete_journey? ? 1 : 6
+    self.complete_journey? ? MINIMUM_CHARGE : PENALTY_CHARGE
   end
 
 end
