@@ -32,7 +32,7 @@ let(:exit_station) {double :exit_station}
 
     it 'checks if oystercard is touched in'do
       subject.touch_in(station)
-      expect(subject).to be_in_journey
+      expect(subject).to be_in_journeys
     end
 
     it 'is initially not in a journey' do
