@@ -60,7 +60,7 @@ end
     it "stores journey" do
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
-      expect(subject.journeys).to include journey
+      expect(subject.history).to include journey
     end
   end
 

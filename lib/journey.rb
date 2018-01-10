@@ -21,5 +21,4 @@ class Journey
     self.complete_journey? ? 1 : 6
   end
 
-
 end
