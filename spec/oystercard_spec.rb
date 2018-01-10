@@ -43,7 +43,6 @@ end
   describe '#touch_out'do
     let(:station) {double :station}
     it 'checks if oystercard is touched out'do
-      #subject.touch_in
       subject.touch_out(station)
       expect(subject).not_to be_in_journey
     end
@@ -57,28 +56,27 @@ end
       subject.top_up(5)
       subject.touch_out(station)
       expect(subject.entry_station).to eq nil
-      # expect{subject.touch_out(station)}.to change{subject.entry_station}.to nil
     end
   end
 
   describe '#touch_in' do
-    let(:station) {double :station}
-
     it 'raises error when touched in card has insufficient balance'do
-    expect{subject.touch_in(station)}.to raise_error 'Insufficient balance'
-  end
+      expect{subject.touch_in(station)}.to raise_error 'Insufficient balance'
+    end
 
     it 'stores the entry station'do
-      subject.top_up(5)
+      subject.top_up(10)
       expect{subject.touch_in(station)}.to change{subject.entry_station}.to station
     end
   end
 
   describe '#store_full_journey' do
     let(:journey) { {entry_station: entry_station, exit_station: exit_station} }
+    before do
+      subject.top_up(Oystercard::BALANCE_LIMIT)
+    end
 
     it "stores journey" do
-      subject.top_up(10)
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
       expect(subject.journeys).to include journey

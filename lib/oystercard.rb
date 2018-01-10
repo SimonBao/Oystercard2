@@ -22,20 +22,17 @@ MINIMUM_CHARGE = 1
 
 
   def in_journeys?
-  #@entry_station == nil ? false : true
-  !!entry_station
+    !!entry_station
   end
 
   def touch_in(station)
-    # @entry_station = station
     @entry_station = station
     @temp_journey[:entry_station] = station
     fail "Insufficient balance" if @balance < MINIMUM_BALANCE
   end
 
   def touch_out(station)
-    # @entry_station = station
-    # @entry_station = nil
+    @entry_station = nil
     @temp_journey[:exit_station] = station
     store_full_journey(temp_journey)
     deduct(MINIMUM_CHARGE)
