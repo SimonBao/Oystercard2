@@ -34,4 +34,17 @@ describe Journey do
     end
   end
 
+  context "#fare" do
+    it "Should return minimum charge" do
+      subject.start_journey("Bank")
+      subject.end_journey("Brixton")
+      expect(subject.fare_calculated).to eq 1
+    end
+
+    it "Should return penalty charge" do
+      subject.start_journey("Bank")
+      expect(subject.fare_calculated).to eq 6
+    end
+  end
+
 end

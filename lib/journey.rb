@@ -17,4 +17,9 @@ class Journey
     temp_trip[:entry_station] != nil && temp_trip[:exit_station] != nil
   end
 
+  def fare_calculated
+    self.complete_journey? ? 1 : 6
+  end
+
+
 end
