@@ -21,9 +21,6 @@ MINIMUM_CHARGE = 1
   end
 
 
-  def in_journeys?
-    !!entry_station
-  end
 
   def touch_in(station)
     @entry_station = station

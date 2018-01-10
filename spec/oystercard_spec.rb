@@ -29,28 +29,9 @@ let(:exit_station) {double :exit_station}
     before do
       subject.top_up(Oystercard::BALANCE_LIMIT)
     end
-
-    it 'checks if oystercard is touched in'do
-      subject.touch_in(station)
-      expect(subject).to be_in_journeys
-    end
-
-    it 'is initially not in a journey' do
-      expect(subject).not_to be_in_journey
-    end
 end
 
   describe '#touch_out'do
-    let(:station) {double :station}
-    it 'checks if oystercard is touched out'do
-      subject.touch_out(station)
-      expect(subject).not_to be_in_journey
-    end
-
-    it "charges minimum fare" do
-      subject.top_up(5)
-      expect{ subject.touch_out(station)}.to change{subject.balance}.by(-Oystercard::MINIMUM_CHARGE)
-    end
 
     it 'stores nil when touched out'do
       subject.top_up(5)
