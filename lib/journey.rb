@@ -1,9 +1,13 @@
 class Journey
-
-  attr_reader :entry_station, :exit_station
+  attr_reader :temp_trip
 
   def initialize
-    @entry_station = nil
-    @exit_station = nil
+    @temp_trip = {entry_station: nil , exit_station: nil}
   end
+
+
+  def start_journey(station)
+    @temp_trip[:entry_station] = station
+  end
+
 end
