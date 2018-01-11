@@ -2,7 +2,6 @@ require_relative "journey"
 
 class Oystercard
 attr_reader :balance
-attr_reader :entry_station
 attr_reader :history
 attr_reader :current_journey
 
@@ -12,9 +11,7 @@ MINIMUM_CHARGE = 1
 
   def initialize(journey_class = Journey)
    @balance = 0
-   @entry_station = nil
    @history = []
-   #@temp_journey = {}
    @journey_class = journey_class
   end
 
@@ -32,32 +29,27 @@ MINIMUM_CHARGE = 1
 
 
   def touch_out(station)
+    @current_journey = @journey_class.new if @current_journey == nil
     @current_journey.end_journey(station)
     complete_journey
-
-
-    # @entry_station = nil
-    # @temp_journey[:exit_station] = station
-    # store_full_journey(temp_journey)
-    # deduct(MINIMUM_CHARGE)
   end
 
-  def store_full_journey(current_journey)
-    @history << current_journey
-  end
 
   def deduct(amount)
     @balance -= amount
   end
 
+
   private
-
-
 
   def complete_journey
     deduct(@current_journey.fare_calculated)
     store_full_journey(current_journey)
     @current_journey = nil
+  end
+
+  def store_full_journey(current_journey)
+    @history << current_journey
   end
 
 end

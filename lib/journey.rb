@@ -17,7 +17,7 @@ class Journey
   end
 
   def complete_journey?
-    trip[:entry_station] != nil && trip[:exit_station] != nil
+    @trip[:entry_station] != nil && @trip[:exit_station] != nil
   end
 
   def fare_calculated
