@@ -35,12 +35,24 @@ end
 
   describe '#touch_out'do
 
-    it 'stores nil when touched out'do
-      skip
-      subject.top_up(5)
-      subject.touch_out(station)
-      expect(subject.entry_station).to eq nil
-    end
+    let(:journey_class) {double :journey_class , new: journey}
+    let(:journey) {double :journey}
+
+  it "Stores the exit station" do
+    allow(journey).to receive(:fare_calculated).and_return(6)
+    oystercard = Oystercard.new(journey_class)
+    expect(journey).to receive(:end_journey)
+    oystercard.top_up(10)
+    oystercard.touch_out(station)
+
+  end
+
+    # it 'stores nil when touched out'do
+    #   skip
+    #   subject.top_up(5)
+    #   subject.touch_out(station)
+    #   expect(subject.entry_station).to eq nil
+    # end
   end
 
   describe '#touch_in' do
@@ -55,8 +67,8 @@ end
       oystercard = Oystercard.new(journey_class)
       oystercard.top_up(10)
 
-      expect(journey).to receive(:start_journey).with('Barking')
-      oystercard.touch_in('Barking')
+      expect(journey).to receive(:start_journey)#.with('Barking')
+      oystercard.touch_in(station) #or ("Barking")
 
     end
   end
@@ -67,11 +79,11 @@ end
       subject.top_up(Oystercard::BALANCE_LIMIT)
     end
 
-    it "stores journey" do
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.history).to include journey
-    end
+    # it "stores journey" do
+    #   subject.touch_in(entry_station)
+    #   subject.touch_out(exit_station)
+    #   expect(subject.history).to include journey
+    # end
   end
 
 end
