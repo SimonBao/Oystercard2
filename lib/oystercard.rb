@@ -27,23 +27,15 @@ MINIMUM_CHARGE = 1
     @current_journey.start_journey(station)
   end
 
-
-
-
   def touch_out(station)
     @current_journey = @journey_class.new if @current_journey == nil
     @current_journey.end_journey(station)
     complete_journey
   end
 
-
-
-
-
   def deduct(amount)
     @balance -= amount
   end
-
 
   private
 
