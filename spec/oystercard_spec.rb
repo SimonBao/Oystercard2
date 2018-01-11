@@ -1,10 +1,12 @@
 require "oystercard"
 
 describe Oystercard do
-
+subject(:oystercard) {described_class.new}
+let(:journey) {double :journey}
 let(:station) {double :station}
 let(:entry_station) {double :entry_station}
 let(:exit_station) {double :exit_station}
+
 
   it 'sets zero balance on new oystercard' do
     expect(subject.balance).to eq 0
@@ -34,6 +36,7 @@ end
   describe '#touch_out'do
 
     it 'stores nil when touched out'do
+      skip
       subject.top_up(5)
       subject.touch_out(station)
       expect(subject.entry_station).to eq nil
@@ -45,9 +48,16 @@ end
       expect{subject.touch_in(station)}.to raise_error 'Insufficient balance'
     end
 
+    let(:journey_class) {double :journey_class , new: journey}
+    let(:journey) {double :journey}
     it 'stores the entry station'do
-      subject.top_up(10)
-      expect{subject.touch_in(station)}.to change{subject.entry_station}.to station
+
+      oystercard = Oystercard.new(journey_class)
+      oystercard.top_up(10)
+
+      expect(journey).to receive(:start_journey).with('Barking')
+      oystercard.touch_in('Barking')
+
     end
   end
 

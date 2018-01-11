@@ -23,6 +23,7 @@ MINIMUM_CHARGE = 1
   def touch_in(station)
     fail "Insufficient balance" if @balance < MINIMUM_BALANCE
     if current_journey then complete_journey end
+
     @current_journey = @journey_class.new
     @current_journey.start_journey(station)
   end
