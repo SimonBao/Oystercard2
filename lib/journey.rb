@@ -1,7 +1,6 @@
 class Journey
   attr_reader :trip
 
-  MINIMUM_CHARGE = 1
   PENALTY_CHARGE = 6
 
   def initialize
@@ -21,7 +20,7 @@ class Journey
   end
 
   def fare_calculated
-    self.complete_journey? ? MINIMUM_CHARGE : PENALTY_CHARGE
+    self.complete_journey? ? Oystercard::MINIMUM_CHARGE : PENALTY_CHARGE
   end
 
 end
