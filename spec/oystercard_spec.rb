@@ -1,12 +1,13 @@
 require "oystercard"
 
 describe Oystercard do
-subject(:oystercard) {described_class.new}
+subject(:oystercard) {described_class.new(journey_class)}
 let(:journey) {double :journey}
 let(:station) {double :station}
 let(:entry_station) {double :entry_station}
 let(:exit_station) {double :exit_station}
-
+let(:journey_class) {double :journey_class , new: journey}
+let(:journey) {double :journey}
 
   it 'sets zero balance on new oystercard' do
     expect(subject.balance).to eq 0
@@ -20,9 +21,9 @@ let(:exit_station) {double :exit_station}
 
     it 'raises error when balance excedes balance limit' do
       balance_limit = Oystercard::BALANCE_LIMIT
-      subject.top_up(balance_limit)
+      oystercard.top_up(balance_limit)
       error = "Balance limit of #{balance_limit} reached"
-      expect{subject.top_up(1)}.to raise_error error
+      expect{oystercard.top_up(1)}.to raise_error(error)
     end
   end
 
@@ -40,7 +41,6 @@ end
 
   it "Stores the exit station" do
     allow(journey).to receive(:fare_calculated).and_return(6)
-    oystercard = Oystercard.new(journey_class)
     expect(journey).to receive(:end_journey)
     oystercard.top_up(10)
     oystercard.touch_out(station)
@@ -56,20 +56,14 @@ end
   end
 
   describe '#touch_in' do
-    it 'raises error when touched in card has insufficient balance'do
-      expect{subject.touch_in(station)}.to raise_error 'Insufficient balance'
+    it 'raises error when touched in card has insufficient balance' do
+      expect{ oystercard.touch_in(station) }.to raise_error 'Insufficient balance'
     end
 
-    let(:journey_class) {double :journey_class , new: journey}
-    let(:journey) {double :journey}
     it 'stores the entry station'do
-
-      oystercard = Oystercard.new(journey_class)
       oystercard.top_up(10)
-
       expect(journey).to receive(:start_journey)#.with('Barking')
       oystercard.touch_in(station) #or ("Barking")
-
     end
   end
 

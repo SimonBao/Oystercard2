@@ -16,19 +16,19 @@ MINIMUM_CHARGE = 1
   end
 
   def top_up(amount)
-    raise "Balance limit of #{BALANCE_LIMIT} reached" if amount +balance > BALANCE_LIMIT
+    raise "Balance limit of #{BALANCE_LIMIT} reached" if limit_exceeded?(amount)
     @balance += amount
   end
 
   def touch_in(station)
-    fail "Insufficient balance" if @balance < MINIMUM_BALANCE
+    fail "Insufficient balance" if !enough_money?
     if current_journey then complete_journey end
-    @current_journey = @journey_class.new
+    @current_journey = @journey_class.new #refactor
     @current_journey.start_journey(station)
   end
 
   def touch_out(station)
-    @current_journey = @journey_class.new if @current_journey == nil
+    @current_journey = @journey_class.new if @current_journey == nil #refactor
     @current_journey.end_journey(station)
     complete_journey
   end
@@ -47,6 +47,14 @@ MINIMUM_CHARGE = 1
 
   def store_full_journey(current_journey)
     @history << current_journey
+  end
+
+  def enough_money?
+    balance > MINIMUM_BALANCE
+  end
+
+  def limit_exceeded?(amount = 0)
+    amount + balance > BALANCE_LIMIT
   end
 
 end
